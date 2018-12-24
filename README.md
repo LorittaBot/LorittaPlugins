@@ -5,7 +5,7 @@
 </p>
 <p align="center">
 <a href="https://github.com/LorittaBot/LorittaPlugins/stargazers"><img src="https://img.shields.io/github/stars/LorittaBot/LorittaPlugins.svg?style=social&label=Stars"></a>
-<a href="https://github.com/LorittaBot/LorittaPlugins/watchers"><img src="https://img.shields.io/github/watchers/LorittaBot/LorittaBot.svg?style=social&label=Watch"></a>
+<a href="https://github.com/LorittaBot/LorittaPlugins/watchers"><img src="https://img.shields.io/github/watchers/LorittaBot/LorittaPlugins.svg?style=social&label=Watch"></a>
 </p>
 <p align="center">
 	<sup><i>Desenho feito por <code>Heathecliff#6627</code></i></sup>
