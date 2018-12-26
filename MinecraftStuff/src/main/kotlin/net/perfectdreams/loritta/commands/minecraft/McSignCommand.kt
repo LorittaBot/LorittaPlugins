@@ -20,7 +20,7 @@ class McSignCommand : LorittaCommand(arrayOf("mcsign", "mcplaca"), category = Co
     }
 
     override fun getExamples(locale: BaseLocale): List<String> {
-        return super.getExamples(locale)
+        return locale.getWithType("commands.minecraft.mcsign.examples")
     }
 
     override fun getUsage(locale: BaseLocale): CommandArguments {
