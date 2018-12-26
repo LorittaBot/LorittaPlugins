@@ -14,6 +14,8 @@ import java.io.File
 import javax.imageio.ImageIO
 
 class AtendenteCommand : LorittaCommand(arrayOf("atendente"), CommandCategory.IMAGES) {
+    override val needsToUploadFiles = true
+
     override fun getDescription(locale: BaseLocale): String? {
         return locale["commands.images.atendente.description"]
     }

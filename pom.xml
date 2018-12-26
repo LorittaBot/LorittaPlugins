@@ -65,5 +65,6 @@
 
     <modules>
         <module>ArtsyJoyLori</module>
+		<module>MinecraftStuff</module>
     </modules>
 </project>
