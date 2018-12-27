@@ -1,9 +1,6 @@
 package net.perfectdreams.loritta.commands.images
 
 import com.mrpowergamerbr.loritta.Loritta
-import com.mrpowergamerbr.loritta.commands.CommandContext
-import com.mrpowergamerbr.loritta.dao.Profile
-import com.mrpowergamerbr.loritta.dao.ProfileSettings
 import com.mrpowergamerbr.loritta.network.Databases
 import com.mrpowergamerbr.loritta.utils.Constants
 import com.mrpowergamerbr.loritta.utils.ImageUtils
@@ -12,25 +9,26 @@ import com.mrpowergamerbr.loritta.utils.locale.BaseLocale
 import com.mrpowergamerbr.loritta.utils.locale.Gender
 import com.mrpowergamerbr.loritta.utils.locale.PersonalPronoun
 import com.mrpowergamerbr.loritta.utils.loritta
-import kotlinx.html.InputType
-import net.dv8tion.jda.core.OnlineStatus
-import net.dv8tion.jda.core.entities.User
 import net.perfectdreams.commands.annotation.Subcommand
-import net.perfectdreams.loritta.api.commands.CommandCategory
-import net.perfectdreams.loritta.api.commands.LorittaCommand
-import net.perfectdreams.loritta.api.impl.DiscordCommandContext
+import net.perfectdreams.loritta.api.OnlineStatus
+import net.perfectdreams.loritta.api.commands.*
+import net.perfectdreams.loritta.api.entities.Member
+import net.perfectdreams.loritta.api.entities.User
+import net.perfectdreams.loritta.platform.discord.entities.DiscordUser
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.awt.*
 import java.awt.image.BufferedImage
-import java.io.File
-import java.util.ArrayList
-import javax.imageio.ImageIO
+import java.util.*
+import kotlin.contracts.ExperimentalContracts
 
 class TristeRealidadeCommand : LorittaCommand(arrayOf("sadreality", "tristerealidade"), CommandCategory.IMAGES) {
     override val needsToUploadFiles = true
 
+    @ExperimentalContracts
     @Subcommand
-    suspend fun root(context: DiscordCommandContext, locale: BaseLocale) {
+    suspend fun root(context: LorittaCommandContext, locale: BaseLocale) {
+        val guild = context.guild
+
         var x = 0
         var y = 0
 
@@ -41,25 +39,38 @@ class TristeRealidadeCommand : LorittaCommand(arrayOf("sadreality", "tristereali
             java.awt.RenderingHints.VALUE_TEXT_ANTIALIAS_ON)
 
         val users = ArrayList<User>()
-        val members = context.guild.members.filter { it.onlineStatus != OnlineStatus.OFFLINE && it.user.avatarUrl != null && !it.user.isBot }.toMutableList()
+        users.addAll(context.message.mentionedUsers)
+        var members = mutableListOf<Member>()
 
-        users.addAll(context.discordMessage.mentionedUsers)
+        if (guild != null) {
+            members = guild.members.filter { it.onlineStatus != OnlineStatus.OFFLINE && it.avatarUrl != null && !it.isBot }
+                    .toMutableList()
+        }
 
         while (6 > users.size) {
             val member = if (members.isEmpty()) {
-                // omg
-                context.guild.members[Loritta.RANDOM.nextInt(context.guild.members.size)]
+                if (guild != null) {
+                    // omg
+                    guild.members[Loritta.RANDOM.nextInt(guild.members.size)]
+                } else {
+                    throw CommandException("Não existem membros suficientes para fazer uma triste realidade, sorry ;w;", Constants.ERROR)
+                }
             } else {
                 members[Loritta.RANDOM.nextInt(members.size)]
             }
 
-            users.add(member.user)
+            users.add(member)
             members.remove(member)
         }
 
-        var lovedGender = transaction(Databases.loritta) {
-            val profile = loritta.getOrCreateLorittaProfile(users[0].idLong)
-            profile.settings.gender
+        var lovedGender = Gender.UNKNOWN
+
+        val firstUser = users[0]
+        if (firstUser is DiscordUser) {
+            transaction(Databases.loritta) {
+                val profile = loritta.getOrCreateLorittaProfile(firstUser.handle.idLong)
+                profile.settings.gender
+            }
         }
 
         if (lovedGender == Gender.UNKNOWN)
@@ -72,20 +83,27 @@ class TristeRealidadeCommand : LorittaCommand(arrayOf("sadreality", "tristereali
             val avatarImg = LorittaUtils.downloadImage(member.effectiveAvatarUrl)!!.getScaledInstance(128, 128, Image.SCALE_SMOOTH)
             baseGraph.drawImage(avatarImg, x, y, null)
 
-            baseGraph.font = Constants.MINECRAFTIA.deriveFont(Font.PLAIN, 8f)
-            baseGraph.color = Color.BLACK
-            baseGraph.drawString(member.name + "#" + member.discriminator, x + 1, y + 12)
-            baseGraph.drawString(member.name + "#" + member.discriminator, x + 1, y + 14)
-            baseGraph.drawString(member.name + "#" + member.discriminator, x, y + 13)
-            baseGraph.drawString(member.name + "#" + member.discriminator, x + 2, y + 13)
-            baseGraph.color = Color.WHITE
-            baseGraph.drawString(member.name + "#" + member.discriminator, x + 1, y + 13)
+            if (member is DiscordUser) {
+                baseGraph.font = Constants.MINECRAFTIA.deriveFont(Font.PLAIN, 8f)
+                baseGraph.color = Color.BLACK
+                baseGraph.drawString(member.name + "#" + member.handle.discriminator, x + 1, y + 12)
+                baseGraph.drawString(member.name + "#" + member.handle.discriminator, x + 1, y + 14)
+                baseGraph.drawString(member.name + "#" + member.handle.discriminator, x, y + 13)
+                baseGraph.drawString(member.name + "#" + member.handle.discriminator, x + 2, y + 13)
+                baseGraph.color = Color.WHITE
+                baseGraph.drawString(member.name + "#" + member.handle.discriminator, x + 1, y + 13)
+            }
 
             baseGraph.font = ArtsyJoyLoriConstants.BEBAS_NEUE.deriveFont(22f)
-            var gender = transaction(Databases.loritta) {
-                val profile = loritta.getOrCreateLorittaProfile(member.idLong)
-                profile.settings.gender
+            var gender = Gender.UNKNOWN
+
+            if (member is DiscordUser) {
+                transaction(Databases.loritta) {
+                    val profile = loritta.getOrCreateLorittaProfile(member.handle.idLong)
+                    profile.settings.gender
+                }
             }
+
             if (gender == Gender.UNKNOWN)
                 gender = Gender.MALE
             if (aux == 0)
