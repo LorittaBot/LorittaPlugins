@@ -1,7 +1,7 @@
 package net.perfectdreams.loritta.commands.administration
 
 import com.mrpowergamerbr.loritta.Loritta
-import com.mrpowergamerbr.loritta.commands.*
+import net.perfectdreams.loritta.api.commands.*
 import com.mrpowergamerbr.loritta.utils.locale.BaseLocale
 import com.mrpowergamerbr.loritta.utils.LoriReply
 import net.dv8tion.jda.core.Permission
