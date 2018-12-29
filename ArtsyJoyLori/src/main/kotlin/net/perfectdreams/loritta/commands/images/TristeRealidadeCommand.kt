@@ -84,7 +84,7 @@ class TristeRealidadeCommand : LorittaCommand(arrayOf("sadreality", "tristereali
         while (6 > aux) {
             val member = users[0]
 
-            val avatarImg = (LorittaUtils.downloadImage(member.effectiveAvatarUrl) ?: LorittaUtils.downloadImage((member as DiscordMember).handle.defaultAvatarUrl))!!.getScaledInstance(128, 128, Image.SCALE_SMOOTH)
+            val avatarImg = (LorittaUtils.downloadImage(member.effectiveAvatarUrl) ?: LorittaUtils.downloadImage((member as DiscordUser).handle.defaultAvatarUrl))!!.getScaledInstance(128, 128, Image.SCALE_SMOOTH)
             baseGraph.drawImage(avatarImg, x, y, null)
 
             if (member is DiscordUser) {
