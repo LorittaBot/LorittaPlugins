@@ -33,7 +33,7 @@ class DashboardCommand : LorittaCommand(arrayOf("dashboard", "painel", "configur
         if (!context.isPrivateChannel && (context.lorittaUser.hasPermission(LorittaPermission.ALLOW_ACCESS_TO_DASHBOARD)) || context.discordGuild!!.selfMember.hasPermission(Permission.MANAGE_SERVER)) {
             context.reply(
                     LoriReply(
-                            "Dashboard: {$url}",
+                            "Dashboard: $url",
                             "<:wumplus:388417805126467594>"
                     )
             )
@@ -41,7 +41,7 @@ class DashboardCommand : LorittaCommand(arrayOf("dashboard", "painel", "configur
             // Se o comando for executando em mensagem privada dê o negoco pra slecionar o servidor
             context.reply(
                     LoriReply(
-                            "Dashboard: {$dashboard}",
+                            "Dashboard: $dashboard",
                             "<:wumplus:388417805126467594>"
                     )
             )
