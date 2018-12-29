@@ -71,7 +71,7 @@ class TristeRealidadeCommand : LorittaCommand(arrayOf("sadreality", "tristereali
 
         val firstUser = users[0]
         if (firstUser is DiscordUser) {
-            transaction(Databases.loritta) {
+            lovedGender = transaction(Databases.loritta) {
                 val profile = loritta.getOrCreateLorittaProfile(firstUser.handle.idLong)
                 profile.settings.gender
             }
