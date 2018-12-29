@@ -102,7 +102,7 @@ class TristeRealidadeCommand : LorittaCommand(arrayOf("sadreality", "tristereali
             var gender = Gender.UNKNOWN
 
             if (member is DiscordUser) {
-                transaction(Databases.loritta) {
+                gender = transaction(Databases.loritta) {
                     val profile = loritta.getOrCreateLorittaProfile(member.handle.idLong)
                     profile.settings.gender
                 }
