@@ -6,10 +6,8 @@ import com.mrpowergamerbr.loritta.utils.locale.BaseLocale
 import com.mrpowergamerbr.loritta.utils.LoriReply
 import net.dv8tion.jda.core.Permission
 import com.mrpowergamerbr.loritta.utils.LorittaPermission
-// importar a nova framework e blabla
 import net.perfectdreams.commands.annotation.Subcommand
-import net.perfectdreams.commands.loritta.LorittaCommand
-import net.perfectdreams.commands.loritta.LorittaCommandContext
+import net.perfectdreams.loritta.platform.discord.entities.DiscordCommandContext
 
 class DashboardCommand : LorittaCommand(arrayOf("dashboard", "painel", "configurar", "config"), CommandCategory.ADMIN) {
     override fun getDescription(locale: BaseLocale): String? {
@@ -19,11 +17,12 @@ class DashboardCommand : LorittaCommand(arrayOf("dashboard", "painel", "configur
     override val canUseInPrivateChannel: Boolean = true
 
     @Subcommand
-    suspend fun root(context: LorittaCommandContext, locale: BaseLocale) {
-
-        val guild: String = context.guild.id.toString()
+    suspend fun root(context: DiscordCommandContext, locale: BaseLocale) {
         val dashboard = "${Loritta.config.websiteUrl}dashboard"
-        val url = "${dashboard}/configure/{$guild}"
+        var url = dashboard
+        if (!context.isPrivateChannel) {
+            url = "${dashboard}/configure/${context.discordGuild!!.id}"
+        }
 
         /*
         Se o comando for executado em guildas,
@@ -31,7 +30,7 @@ class DashboardCommand : LorittaCommand(arrayOf("dashboard", "painel", "configur
         dê o url do dashboard diretamente pro servidor.
         */
 
-        if (!context.isPrivateChannel && (context.lorittaUser.hasPermission(LorittaPermission.ALLOW_ACCESS_TO_DASHBOARD)) || context.guild.selfMember.hasPermission(Permission.MANAGE_SERVER)) {
+        if (!context.isPrivateChannel && (context.lorittaUser.hasPermission(LorittaPermission.ALLOW_ACCESS_TO_DASHBOARD)) || context.discordGuild!!.selfMember.hasPermission(Permission.MANAGE_SERVER)) {
             context.reply(
                     LoriReply(
                             "Dashboard: {$url}",
