@@ -14,6 +14,9 @@ import net.perfectdreams.loritta.api.OnlineStatus
 import net.perfectdreams.loritta.api.commands.*
 import net.perfectdreams.loritta.api.entities.Member
 import net.perfectdreams.loritta.api.entities.User
+import net.perfectdreams.loritta.platform.discord.entities.DiscordCommandContext
+import net.perfectdreams.loritta.platform.discord.entities.DiscordGuild
+import net.perfectdreams.loritta.platform.discord.entities.DiscordMember
 import net.perfectdreams.loritta.platform.discord.entities.DiscordUser
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.awt.*
@@ -26,8 +29,8 @@ class TristeRealidadeCommand : LorittaCommand(arrayOf("sadreality", "tristereali
 
     @ExperimentalContracts
     @Subcommand
-    suspend fun root(context: LorittaCommandContext, locale: BaseLocale) {
-        val guild = context.guild
+    suspend fun root(context: DiscordCommandContext, locale: BaseLocale) {
+        val guild = context.discordGuild
 
         var x = 0
         var y = 0
@@ -43,15 +46,16 @@ class TristeRealidadeCommand : LorittaCommand(arrayOf("sadreality", "tristereali
         var members = mutableListOf<Member>()
 
         if (guild != null) {
-            members = guild.members.filter { it.onlineStatus != OnlineStatus.OFFLINE && it.avatarUrl != null && !it.isBot }
-                    .toMutableList()
+            members = guild.members.filter { it.onlineStatus != OnlineStatus.OFFLINE && it.user.avatarUrl != null && !it.user.isBot }
+                .map { DiscordMember(it) }
+                .toMutableList()
         }
 
         while (6 > users.size) {
             val member = if (members.isEmpty()) {
                 if (guild != null) {
                     // omg
-                    guild.members[Loritta.RANDOM.nextInt(guild.members.size)]
+                    DiscordGuild(guild).members[Loritta.RANDOM.nextInt(guild.members.size)]
                 } else {
                     throw CommandException("Não existem membros suficientes para fazer uma triste realidade, sorry ;w;", Constants.ERROR)
                 }
