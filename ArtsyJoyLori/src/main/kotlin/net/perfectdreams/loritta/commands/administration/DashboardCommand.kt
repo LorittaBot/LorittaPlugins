@@ -30,7 +30,7 @@ class DashboardCommand : LorittaCommand(arrayOf("dashboard", "painel", "configur
         dê o url do dashboard diretamente pro servidor.
         */
 
-        if (!context.isPrivateChannel && (context.lorittaUser.hasPermission(LorittaPermission.ALLOW_ACCESS_TO_DASHBOARD)) || context.discordGuild!!.selfMember.hasPermission(Permission.MANAGE_SERVER)) {
+        if (!context.isPrivateChannel && (context.lorittaUser.hasPermission(LorittaPermission.ALLOW_ACCESS_TO_DASHBOARD) || context.handle.hasPermission(Permission.MANAGE_SERVER))) {
             context.reply(
                     LoriReply(
                             "Dashboard: $url",
