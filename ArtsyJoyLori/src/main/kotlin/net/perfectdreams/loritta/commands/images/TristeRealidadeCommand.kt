@@ -28,12 +28,12 @@ class TristeRealidadeCommand : LorittaCommand(arrayOf("sadreality", "tristereali
     override val needsToUploadFiles = true
 
     override fun getDescription(locale: BaseLocale): String? {
-        return locale["commands.fun.tristerealidade.description"]
+        return locale["commands.images.tristerealidade.description"]
     }
 
     @ExperimentalContracts
     @Subcommand
-    suspend fun root(context: LorittaCommandContext, locale: BaseLocale) {
+    suspend fun root(context: LorittaCommandContext, locale: BaseLocale, user1: User? = null, user2: User? = null, user3: User? = null, user4: User? = null, user5: User? = null, user6: User? = null) {
         var x = 0
         var y = 0
 
@@ -44,19 +44,27 @@ class TristeRealidadeCommand : LorittaCommand(arrayOf("sadreality", "tristereali
                 java.awt.RenderingHints.VALUE_TEXT_ANTIALIAS_ON)
 
         val users = mutableListOf<User>()
-        users.addAll(context.message.mentionedUsers)
+
+        if (user1 != null)
+            users.add(user1)
+        if (user2 != null)
+            users.add(user2)
+        if (user3 != null)
+            users.add(user3)
+        if (user4 != null)
+            users.add(user4)
+        if (user5 != null)
+            users.add(user5)
+        if (user6 != null)
+            users.add(user6)
+
         val members = context.channel.participants.toMutableList()
 
         while (6 > users.size) {
-            val member = if (members.isEmpty()) {
-                if (context.guild != null) {
-                    // omg
-                    context.guild!!.members[Loritta.RANDOM.nextInt( context.guild!!.members.size)]
-                } else {
-                    throw CommandException("Não existem membros suficientes para fazer uma triste realidade, sorry ;w;", Constants.ERROR)
-                }
-            } else {
+            val member = if (members.isNotEmpty()) {
                 members[Loritta.RANDOM.nextInt(members.size)]
+            } else {
+                throw CommandException("Não existem membros suficientes para fazer uma triste realidade, sorry ;w;", Constants.ERROR)
             }
 
             users.add(member)
