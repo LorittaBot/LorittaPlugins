@@ -27,35 +27,31 @@ import kotlin.contracts.ExperimentalContracts
 class TristeRealidadeCommand : LorittaCommand(arrayOf("sadreality", "tristerealidade"), CommandCategory.IMAGES) {
     override val needsToUploadFiles = true
 
+    override fun getDescription(locale: BaseLocale): String? {
+        return locale["commands.fun.tristerealidade.description"]
+    }
+
     @ExperimentalContracts
     @Subcommand
-    suspend fun root(context: DiscordCommandContext, locale: BaseLocale) {
-        val guild = context.discordGuild
-
+    suspend fun root(context: LorittaCommandContext, locale: BaseLocale) {
         var x = 0
         var y = 0
 
         val base = BufferedImage(384, 256, BufferedImage.TYPE_INT_ARGB) // Iremos criar uma imagem 384x256 (tamanho do template)
         val baseGraph = base.graphics as Graphics2D
         baseGraph.setRenderingHint(
-            java.awt.RenderingHints.KEY_TEXT_ANTIALIASING,
-            java.awt.RenderingHints.VALUE_TEXT_ANTIALIAS_ON)
+                java.awt.RenderingHints.KEY_TEXT_ANTIALIASING,
+                java.awt.RenderingHints.VALUE_TEXT_ANTIALIAS_ON)
 
-        val users = ArrayList<User>()
+        val users = mutableListOf<User>()
         users.addAll(context.message.mentionedUsers)
-        var members = mutableListOf<Member>()
-
-        if (guild != null) {
-            members = guild.members.filter { it.onlineStatus != OnlineStatus.OFFLINE && it.user.avatarUrl != null && !it.user.isBot }
-                .map { DiscordMember(it) }
-                .toMutableList()
-        }
+        val members = context.channel.participants.toMutableList()
 
         while (6 > users.size) {
             val member = if (members.isEmpty()) {
-                if (guild != null) {
+                if (context.guild != null) {
                     // omg
-                    DiscordGuild(guild).members[Loritta.RANDOM.nextInt(guild.members.size)]
+                    context.guild!!.members[Loritta.RANDOM.nextInt( context.guild!!.members.size)]
                 } else {
                     throw CommandException("Não existem membros suficientes para fazer uma triste realidade, sorry ;w;", Constants.ERROR)
                 }
@@ -96,6 +92,15 @@ class TristeRealidadeCommand : LorittaCommand(arrayOf("sadreality", "tristereali
                 baseGraph.drawString(member.name + "#" + member.handle.discriminator, x + 2, y + 13)
                 baseGraph.color = Color.WHITE
                 baseGraph.drawString(member.name + "#" + member.handle.discriminator, x + 1, y + 13)
+            } else {
+                baseGraph.font = Constants.MINECRAFTIA.deriveFont(Font.PLAIN, 8f)
+                baseGraph.color = Color.BLACK
+                baseGraph.drawString(member.name, x + 1, y + 12)
+                baseGraph.drawString(member.name, x + 1, y + 14)
+                baseGraph.drawString(member.name, x, y + 13)
+                baseGraph.drawString(member.name, x + 2, y + 13)
+                baseGraph.color = Color.WHITE
+                baseGraph.drawString(member.name, x + 1, y + 13)
             }
 
             baseGraph.font = ArtsyJoyLoriConstants.BEBAS_NEUE.deriveFont(22f)
@@ -114,12 +119,12 @@ class TristeRealidadeCommand : LorittaCommand(arrayOf("sadreality", "tristereali
                 gender = lovedGender
 
             drawCentralizedTextOutlined(
-                baseGraph,
-                locale["commands.images.tristerealidade.slot.$aux.${gender.name}", lovedGender.getPossessivePronoun(locale, PersonalPronoun.THIRD_PERSON, member.name)],
-                Rectangle(x, y + 80, 128, 42),
-                Color.WHITE,
-                Color.BLACK,
-                2
+                    baseGraph,
+                    locale["commands.images.tristerealidade.slot.$aux.${gender.name}", lovedGender.getPossessivePronoun(locale, PersonalPronoun.THIRD_PERSON, member.name)],
+                    Rectangle(x, y + 80, 128, 42),
+                    Color.WHITE,
+                    Color.BLACK,
+                    2
             )
 
             x += 128
