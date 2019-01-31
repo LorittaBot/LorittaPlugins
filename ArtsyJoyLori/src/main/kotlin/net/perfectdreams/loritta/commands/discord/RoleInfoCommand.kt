@@ -25,7 +25,12 @@ class RoleInfoCommand : LorittaCommand(arrayOf("roleinfo", "taginfo"), CommandCa
 
     @Subcommand
     suspend fun root(context: DiscordCommandContext, locale: BaseLocale, legacyLocale: LegacyBaseLocale) {
-        val argument = context.args[0]
+        val argument = context.args.getOrNull(0)
+        
+        if (argument == null) {
+            context.explain()
+            return
+        }
 
         val role = if (context.discordMessage.mentionedRoles.firstOrNull() != null) {
             context.discordMessage.mentionedRoles.firstOrNull()
@@ -37,6 +42,7 @@ class RoleInfoCommand : LorittaCommand(arrayOf("roleinfo", "taginfo"), CommandCa
             context.reply(locale["commands.discord.roleinfo.roleNotFound"], Constants.ERROR)
             return
         }
+        
         if (role != null) {
             val embed = EmbedBuilder()
 
@@ -60,7 +66,7 @@ class RoleInfoCommand : LorittaCommand(arrayOf("roleinfo", "taginfo"), CommandCa
             embed.setTitle("\uD83D\uDCBC ${role.name}")
             embed.setColor(role.color)
             embed.addField("\uD83D\uDC40 ${locale["commands.discord.roleinfo.roleMention"]}", "`${role.asMention}`", true)
-            embed.addField("\uD83D\uDCC5 ${locale["commands.discord.roleinfo.roleCreated"]}", "`${DateUtils.formatDateDiff(role.creationTime.toInstant().toEpochMilli(), context.legacyLocale)}", true)
+            embed.addField("\uD83D\uDCC5 ${locale["commands.discord.roleinfo.roleCreated"]}", "${DateUtils.formatDateDiff(role.creationTime.toInstant().toEpochMilli(), context.legacyLocale)}", true)
             embed.addField("\uD83D\uDCBB ${locale["commands.discord.roleinfo.roleID"]}", "`${role.id}`", true)
             embed.addField("${locale["commands.discord.roleinfo.roleHoisted"]}", isHoisted, true)
             embed.addField("<:bot:516314838541008906> ${locale["commands.discord.roleinfo.roleIntegration"]}", isIntegrationBot, true)
