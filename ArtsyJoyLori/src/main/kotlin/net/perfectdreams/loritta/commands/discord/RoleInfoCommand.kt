@@ -36,8 +36,10 @@ class RoleInfoCommand : LorittaCommand(arrayOf("roleinfo", "taginfo"), CommandCa
             context.discordMessage.mentionedRoles.firstOrNull()
         } else if (context.args.isNotEmpty() && argument.isValidSnowflake() && context.event.guild!!.getRoleById(argument) != null) {
             context.event.guild!!.getRoleById(argument)
-        } else if (context.event.guild!!.getRolesByName(argument, true) != null) {
+        } else if (context.event.guild!!.getRolesByName(argument, true).isNotEmpty()) {
             context.event.guild!!.getRolesByName(argument, true)[0]
+        } else if (context.event.guild!!.roles.filter { it.name.contains(argument, true) }.isNotEmpty()) {
+            context.event.guild!!.roles.filter { it.name.contains(argument, true) }.first()
         } else {
             context.reply(locale["commands.discord.roleinfo.roleNotFound"], Constants.ERROR)
             return
