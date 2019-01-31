@@ -21,7 +21,12 @@ class RoleInfoCommand : LorittaCommand(arrayOf("roleinfo", "taginfo"), CommandCa
 		// pls se lembre de colocar a locale
 		return locale["commands.discord.roleinfo.description"]
 	}
+
     override val canUseInPrivateChannel: Boolean = false
+
+    override fun getExamples(locale: BaseLocale): List<String> {
+        return listOf("roleinfo <cargo>")
+    }
 
     @Subcommand
     suspend fun root(context: DiscordCommandContext, locale: BaseLocale, legacyLocale: LegacyBaseLocale) {
