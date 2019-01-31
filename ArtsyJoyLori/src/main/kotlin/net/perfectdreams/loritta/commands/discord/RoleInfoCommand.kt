@@ -57,15 +57,15 @@ class RoleInfoCommand : LorittaCommand(arrayOf("roleinfo", "taginfo"), CommandCa
             }
             val permissions = role.permissions.joinToString(", ", transform = { "`${it.localized(legacyLocale)}`" })
 
-            embed.setTitle("\\uD83D\\uDCBC ${role.name}")
+            embed.setTitle("\uD83D\uDCBC ${role.name}")
             embed.setColor(role.color)
-            embed.addField("\\uD83D\\uDC40 ${locale["commands.discord.roleinfo.roleMention"]}", "`${role.asMention}`", true)
-            embed.addField("\\uD83D\\uDCC5 ${locale["commands.discord.roleinfo.roleCreated"]}", "`${DateUtils.formatDateDiff(role.creationTime.toInstant().toEpochMilli(), context.legacyLocale)}", true)
-            embed.addField("\\uD83D\\uDCBB ${locale["commands.discord.roleinfo.roleID"]}", "`${role.id}`", true)
+            embed.addField("\uD83D\uDC40 ${locale["commands.discord.roleinfo.roleMention"]}", "`${role.asMention}`", true)
+            embed.addField("\uD83D\uDCC5 ${locale["commands.discord.roleinfo.roleCreated"]}", "`${DateUtils.formatDateDiff(role.creationTime.toInstant().toEpochMilli(), context.legacyLocale)}", true)
+            embed.addField("\uD83D\uDCBB ${locale["commands.discord.roleinfo.roleID"]}", "`${role.id}`", true)
             embed.addField("${locale["commands.discord.roleinfo.roleHoisted"]}", isHoisted, true)
             embed.addField("<:bot:516314838541008906> ${locale["commands.discord.roleinfo.roleIntegration"]}", isIntegrationBot, true)
-            embed.addField("\\uD83D\\uDC40 ${locale["command.discord.roleinfo.roleMentionable"]}", isMentionable, true)
-            embed.addField("\\uD83D\\uDEE1 ${locale["commands.discord.roleinfo.rolePermissions"]}", permissions, true)
+            embed.addField("\uD83D\uDC40 ${locale["command.discord.roleinfo.roleMentionable"]}", isMentionable, true)
+            embed.addField("\uD83D\uDEE1 ${locale["commands.discord.roleinfo.rolePermissions"]}", permissions, true)
 
             context.sendMessage(context.getAsMention(true), embed.build())
         }
