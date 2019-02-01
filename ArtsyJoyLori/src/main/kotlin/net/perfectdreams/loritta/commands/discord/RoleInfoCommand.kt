@@ -73,7 +73,7 @@ class RoleInfoCommand : LorittaCommand(arrayOf("roleinfo", "taginfo"), CommandCa
             embed.addField("\uD83D\uDCBB ${locale["commands.discord.roleinfo.roleID"]}", "`${role.id}`", true)
             embed.addField(locale["commands.discord.roleinfo.roleHoisted"], isHoisted, true)
             embed.addField("<:bot:516314838541008906> ${locale["commands.discord.roleinfo.roleIntegration"]}", isIntegrationBot, true)
-            embed.addField("\uD83D\uDC40 ${locale["command.discord.roleinfo.roleMentionable"]}", isMentionable, true)
+            embed.addField("\uD83D\uDC40 ${locale["commands.discord.roleinfo.roleMentionable"]}", isMentionable, true)
             if (role.color != null)
                 embed.addField("🎨 ${locale["commands.discord.roleinfo.roleColor"]}", "`#${Integer.toHexString(role.color.rgb).substring(2).toUpperCase()}`", true)
             embed.addField("\uD83D\uDEE1 ${locale["commands.discord.roleinfo.rolePermissions"]}", permissions, true)
