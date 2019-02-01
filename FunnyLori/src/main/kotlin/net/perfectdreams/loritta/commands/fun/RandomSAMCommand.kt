@@ -1,29 +1,16 @@
 package net.perfectdreams.loritta.commands.`fun`
 
-import com.github.kevinsawicki.http.HttpRequest
 import com.mrpowergamerbr.loritta.Loritta
-import com.mrpowergamerbr.loritta.Loritta.Companion.RANDOM
-import com.mrpowergamerbr.loritta.utils.Constants
-import com.mrpowergamerbr.loritta.utils.extensions.getRandom
-import com.mrpowergamerbr.loritta.utils.jsonParser
 import com.mrpowergamerbr.loritta.utils.locale.BaseLocale
 import net.perfectdreams.commands.annotation.Subcommand
-import net.perfectdreams.loritta.api.commands.CommandArguments
 import net.perfectdreams.loritta.api.commands.CommandCategory
 import net.perfectdreams.loritta.api.commands.LorittaCommand
 import net.perfectdreams.loritta.api.commands.LorittaCommandContext
-import org.jsoup.Jsoup
 import twitter4j.Query
 import twitter4j.Status
 import twitter4j.TwitterFactory
 import twitter4j.conf.ConfigurationBuilder
-import java.awt.Color
-import java.awt.Font
-import java.awt.Graphics
-import java.awt.Rectangle
-import java.io.File
 import java.util.*
-import javax.imageio.ImageIO
 
 class RandomSAMCommand : LorittaCommand(arrayOf("randomsam", "randomsouthamericamemes", "rsam", "rsouthamericamemes"), category = CommandCategory.IMAGES) {
     companion object {
@@ -48,11 +35,15 @@ class RandomSAMCommand : LorittaCommand(arrayOf("randomsam", "randomsouthamerica
             val tf = TwitterFactory(cb.build())
             val twitter = tf.instance
             // Twitter só permite procurar, no máximo, 9 dias atrás (mais que isso não retorna nada!)
-            val now = Calendar.getInstance()
-            val nineDaysAgo = Calendar.getInstance()
-            nineDaysAgo.add(Calendar.DAY_OF_MONTH, -(Loritta.RANDOM.nextInt(1, 10)))
-            val query = Query("from:SoutAmericMemes since:${nineDaysAgo.get(Calendar.YEAR)}-${nineDaysAgo.get(Calendar.MONTH) + 1}-${nineDaysAgo.get(Calendar.DAY_OF_MONTH)} until:${now.get(Calendar.YEAR)}-${now.get(Calendar.MONTH) + 1}-${now.get(Calendar.DAY_OF_MONTH)}")
+            val pastDaysAgo = Calendar.getInstance()
+            val goBackDays = Loritta.RANDOM.nextInt(9, 365)
+            pastDaysAgo.add(Calendar.DAY_OF_MONTH, -goBackDays)
+            val futureDaysAgo = Calendar.getInstance()
+            futureDaysAgo.add(Calendar.DAY_OF_MONTH, (-goBackDays + 9))
+
+            val query = Query("from:SoutAmericMemes since:${pastDaysAgo.get(Calendar.YEAR)}-${pastDaysAgo.get(Calendar.MONTH) + 1}-${pastDaysAgo.get(Calendar.DAY_OF_MONTH)} until:${futureDaysAgo.get(Calendar.YEAR)}-${futureDaysAgo.get(Calendar.MONTH) + 1}-${futureDaysAgo.get(Calendar.DAY_OF_MONTH)}")
             val result = twitter.search(query)
+
             cachedMemes = result.tweets.filter { !it.isRetweeted && it.mediaEntities.isNotEmpty() }
             lastRequest = System.currentTimeMillis()
         }
