@@ -49,7 +49,7 @@ class RenameEmojiCommand : LorittaCommand(arrayOf("renameemoji", "renomearemoji"
                 return
             }
             // Verificar nome para renomear o emoji
-            val regexPattern = Pattern.compile("\"_-@#[a-zA-Z0-9]*")
+            val regexPattern = Pattern.compile("[A-z0-9_]+")
             val regexMatch = regexPattern.matcher(argumentChangeName)
             val emoteName = if (argumentChangeName.length >= 32) {
                 context.reply(locale["commands.discord.renameemoji.emoteNameLength32Error"], Constants.ERROR)
