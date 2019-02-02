@@ -38,7 +38,7 @@ class RenameEmojiCommand : LorittaCommand(arrayOf("renameemoji", "renomearemoji"
             val firstEmote = context.discordMessage.emotes.firstOrNull()
 
             // Verificar emojis na mensagem
-            val emote = if (argumentEmote == firstEmote?.asMention) {
+            val emote = if (firstEmote != null) {
                 firstEmote
             } else if (argumentEmote.isValidSnowflake() && context.discordGuild!!.getEmoteById(argumentEmote) != null) {
                 context.discordGuild!!.getEmoteById(argumentEmote)
