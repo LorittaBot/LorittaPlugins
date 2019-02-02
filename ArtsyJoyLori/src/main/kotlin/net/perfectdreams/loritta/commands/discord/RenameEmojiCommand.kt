@@ -7,6 +7,7 @@ import net.dv8tion.jda.core.Permission
 import net.perfectdreams.commands.annotation.Subcommand
 import net.perfectdreams.loritta.api.commands.*
 import net.perfectdreams.loritta.platform.discord.entities.DiscordCommandContext
+import java.util.regex.Pattern
 
 class RenameEmojiCommand : LorittaCommand(arrayOf("renameemoji", "renomearemoji"), CommandCategory.DISCORD) {
     override fun getDescription(locale: BaseLocale): String? {
@@ -36,6 +37,7 @@ class RenameEmojiCommand : LorittaCommand(arrayOf("renameemoji", "renomearemoji"
             val argumentChangeName = context.args[1]
             val firstEmote = context.discordMessage.emotes.firstOrNull()
 
+            // Verificar emojis na mensagem
             val emote = if (argumentEmote == firstEmote?.asMention) {
                 firstEmote
             } else if (argumentEmote.isValidSnowflake() && context.discordGuild!!.getEmoteById(argumentEmote) != null) {
@@ -46,8 +48,25 @@ class RenameEmojiCommand : LorittaCommand(arrayOf("renameemoji", "renomearemoji"
                 context.reply(locale["commands.discord.renameemoji.emoteNotFound"], Constants.ERROR)
                 return
             }
-            if (emote != null && argumentChangeName != null && emote.canInteract(context.discordGuild!!.selfMember)) {
-                emote.manager.setName(argumentChangeName).queue()
+            // Verificar nome para renomear o emoji
+            val regexPattern = Pattern.compile("\"_-@#[a-zA-Z0-9]*")
+            val regexMatch = regexPattern.matcher(argumentChangeName)
+            val emoteName = if (argumentChangeName.length >= 32) {
+                context.reply(locale["commands.discord.renameemoji.emoteNameLength32Error"], Constants.ERROR)
+                return
+            } else if (2 >= argumentChangeName.length) {
+                context.reply(locale["commands.discord.renameemoji.emoteNameLength2Error"], Constants.ERROR)
+                return
+            } else if (!regexMatch.matches()) {
+                context.reply(locale["commands.discord.renameemoji.emoteNameSpecialChar"], Constants.ERROR)
+                return
+            } else {
+                argumentChangeName
+            }
+
+            // Finalmente renomear emoji!
+            if (emote != null && emoteName != null && emote.canInteract(context.discordGuild!!.selfMember)) {
+                emote.manager.setName(emoteName).queue()
                 context.reply(locale["commands.discord.renameemoji.renameSucess"], emote.asMention)
             }
         } else {
