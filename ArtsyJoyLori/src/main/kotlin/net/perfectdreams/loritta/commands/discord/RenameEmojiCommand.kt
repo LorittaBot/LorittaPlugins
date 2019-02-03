@@ -22,7 +22,7 @@ class RenameEmojiCommand : LorittaCommand(arrayOf("renameemoji", "renomearemoji"
     }
 
     override fun getExamples(locale: BaseLocale): List<String> {
-        return listOf("renameemoji :gesso: gessy")
+        return listOf(":gesso: gessy", "524938593475756042 sad_gesso", "gesso_cat sad_gesso")
     }
 
     override val canUseInPrivateChannel: Boolean = false
