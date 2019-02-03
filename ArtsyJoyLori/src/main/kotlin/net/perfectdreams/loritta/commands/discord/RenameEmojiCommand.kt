@@ -9,7 +9,7 @@ import net.perfectdreams.loritta.api.commands.*
 import net.perfectdreams.loritta.platform.discord.entities.DiscordCommandContext
 import java.util.regex.Pattern
 
-class RenameEmojiCommand : LorittaCommand(arrayOf("renameemoji", "renomearemoji"), CommandCategory.DISCORD) {
+class RenameEmojiCommand : LorittaCommand(arrayOf("renameemoji", "renomearemoji", "remoji"), CommandCategory.DISCORD) {
     override fun getDescription(locale: BaseLocale): String? {
         return locale["commands.discord.renameemoji.description"]
     }
@@ -22,7 +22,7 @@ class RenameEmojiCommand : LorittaCommand(arrayOf("renameemoji", "renomearemoji"
     }
 
     override fun getExamples(locale: BaseLocale): List<String> {
-        return listOf("renameemoji :gesso: gessy")
+        return listOf(":gesso: gessy", "524938593475756042 sad_gesso", "gesso_cat sad_gesso")
     }
 
     override val canUseInPrivateChannel: Boolean = false
