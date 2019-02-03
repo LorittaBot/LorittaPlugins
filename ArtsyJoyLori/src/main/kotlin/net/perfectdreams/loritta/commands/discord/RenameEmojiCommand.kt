@@ -9,7 +9,7 @@ import net.perfectdreams.loritta.api.commands.*
 import net.perfectdreams.loritta.platform.discord.entities.DiscordCommandContext
 import java.util.regex.Pattern
 
-class RenameEmojiCommand : LorittaCommand(arrayOf("renameemoji", "renomearemoji", "remoji"), CommandCategory.DISCORD) {
+class RenameEmojiCommand : LorittaCommand(arrayOf("renameemoji", "renomearemoji"), CommandCategory.DISCORD) {
     override fun getDescription(locale: BaseLocale): String? {
         return locale["commands.discord.renameemoji.description"]
     }
