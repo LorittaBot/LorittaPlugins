@@ -6,6 +6,7 @@ import net.perfectdreams.loritta.commands.images.TristeRealidadeCommand
 import net.perfectdreams.loritta.commands.administration.DashboardCommand
 import net.perfectdreams.loritta.commands.discord.RenameEmojiCommand
 import net.perfectdreams.loritta.commands.discord.RoleInfoCommand
+import net.perfectdreams.loritta.commands.images.DrawnWordCommand
 
 class ArtsyJoyLori : LorittaPlugin() {
     override fun onEnable() {
@@ -17,5 +18,6 @@ class ArtsyJoyLori : LorittaPlugin() {
         // IMAGES
         registerCommand(AtendenteCommand())
         registerCommand(TristeRealidadeCommand())
+        registerCommand(DrawnWordCommand())
     }
 }
