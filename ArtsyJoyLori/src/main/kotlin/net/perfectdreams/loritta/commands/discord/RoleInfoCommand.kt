@@ -63,7 +63,7 @@ class RoleInfoCommand : LorittaCommand(arrayOf("roleinfo", "taginfo"), CommandCa
             } else {
                 locale["loritta.fancyBoolean.false"]
             }
-            val permissions = role.permissions.joinToString(", ", transform = { "`${it.localized(legacyLocale)}`" })
+            val permissions = role.permissions.joinToString(", ", transform = { "`${it.localized(locale)}`" })
 
             embed.setTitle("\uD83D\uDCBC ${role.name}")
             if (role.color != null)

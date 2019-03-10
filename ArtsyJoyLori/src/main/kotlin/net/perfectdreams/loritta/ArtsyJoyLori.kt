@@ -1,6 +1,7 @@
 package net.perfectdreams.loritta
 
 import com.mrpowergamerbr.loritta.plugin.LorittaPlugin
+import net.perfectdreams.loritta.commands.actions.*
 import net.perfectdreams.loritta.commands.images.AtendenteCommand
 import net.perfectdreams.loritta.commands.images.TristeRealidadeCommand
 import net.perfectdreams.loritta.commands.administration.DashboardCommand
@@ -19,5 +20,13 @@ class ArtsyJoyLori : LorittaPlugin() {
         registerCommand(AtendenteCommand())
         registerCommand(TristeRealidadeCommand())
         registerCommand(DrawnWordCommand())
+
+        // ACTIONS
+        registerCommand(AttackCommand())
+        registerCommand(DanceCommand())
+        registerCommand(HugCommand())
+        registerCommand(KissCommand())
+        registerCommand(SlapCommand())
+        registerCommand(HeadPatCommand())
     }
 }
