@@ -49,8 +49,7 @@ class RenameChannelCommand: LorittaCommand(arrayOf("renamechannel", "renomearcan
                 context.reply(locale["commands.moderation.renamechannel.channelnotfound"], Constants.ERROR)
                 return
             }
-            val toRename = context.args.joinToString(" ")
-                    .slice(context.args[0].length..context.args.joinToString(" ").length)
+            val toRename = context.args.drop(1).joinToString(" ")
                     .trim()
                     .replace('|', '│')
                     .replace("/[\\s]/g".toRegex(), "\u2005")
