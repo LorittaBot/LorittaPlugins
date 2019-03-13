@@ -32,6 +32,7 @@ class RenameChannelCommand: LorittaCommand(arrayOf("renamechannel", "renomearcan
 
     override val canUseInPrivateChannel: Boolean = false
 
+    @Subcommand
     suspend fun root(context: DiscordCommandContext, locale: BaseLocale) {
         if (context.args.isEmpty() || context.args.size < 2) {
             context.explain()
