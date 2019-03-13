@@ -3,6 +3,7 @@ package net.perfectdreams.loritta.commands.administration
 import com.mrpowergamerbr.loritta.utils.Constants
 import com.mrpowergamerbr.loritta.utils.isValidSnowflake
 import com.mrpowergamerbr.loritta.utils.locale.BaseLocale
+import net.perfectdreams.commands.annotation.Subcommand
 import net.dv8tion.jda.core.Permission
 import net.perfectdreams.loritta.api.commands.*
 import net.perfectdreams.loritta.platform.discord.entities.DiscordCommandContext
