@@ -54,7 +54,7 @@ class RenameChannelCommand: LorittaCommand(arrayOf("renamechannel", "renomearcan
                     .replace('|', '│')
                     .replace("/[\\s]/g".toRegex(), "\u2005")
 
-            channel!!.manager.setName(toRename)
+            channel!!.manager.setName(toRename).queue()
             context.reply(locale["commands.moderation.renamechannel.successfullyrenamed"], "\uD83C\uDF89")
     }
 }
