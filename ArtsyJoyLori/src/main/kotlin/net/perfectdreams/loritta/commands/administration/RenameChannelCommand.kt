@@ -48,13 +48,17 @@ class RenameChannelCommand : LorittaCommand(arrayOf("renamechannel", "renomearca
             context.event.guild!!.getTextChannelById(context.args[0])
         } else if (context.event.guild!!.getTextChannelsByName(context.args[0], true).isNotEmpty()) {
             context.event.guild!!.getTextChannelsByName(context.args[0], true).first()
+        } else if (context.event.guild!!.textChannels.filter { it.name.contains(context.args[0], true) }.isNotEmpty()) {
+            context.event.guild!!.textChannels.filter { it.name.contains(context.args[0], true) }.first()
         } else {
             null
         }
-        val voiceChannel: VoiceChannel? = if (context.event.guild!!.getVoiceChannelById(context.args[0]) != null) {
+        val voiceChannel: VoiceChannel? = if (context.args[0].isValidSnowflake() && context.event.guild!!.getVoiceChannelById(context.args[0]) != null) {
             context.event.guild!!.getVoiceChannelById(context.args[0])
         } else if (context.event.guild!!.getVoiceChannelsByName(context.args[0], true).isNotEmpty()) {
             context.event.guild!!.getVoiceChannelsByName(context.args[0], true).first()
+        } else if (context.event.guild!!.voiceChannels.filter { it.name.contains(context.args[0], true) }.isNotEmpty()) {
+            context.event.guild!!.voiceChannels.filter { it.name.contains(context.args[0], true) }.first()
         } else {
             null
         }
