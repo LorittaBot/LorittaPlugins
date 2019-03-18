@@ -5,6 +5,9 @@ import com.mrpowergamerbr.loritta.utils.isValidSnowflake
 import com.mrpowergamerbr.loritta.utils.locale.BaseLocale
 import net.perfectdreams.commands.annotation.Subcommand
 import net.dv8tion.jda.core.Permission
+import net.dv8tion.jda.core.entities.Channel
+import net.dv8tion.jda.core.entities.TextChannel
+import net.dv8tion.jda.core.entities.VoiceChannel
 import net.perfectdreams.loritta.api.commands.*
 import net.perfectdreams.loritta.platform.discord.entities.DiscordCommandContext
 
@@ -39,31 +42,48 @@ class RenameChannelCommand : LorittaCommand(arrayOf("renamechannel", "renomearca
             context.explain()
             return
         }
-        val channel = if (context.discordMessage.mentionedChannels.firstOrNull() != null) {
+        val textChannel: TextChannel? = if (context.discordMessage.mentionedChannels.firstOrNull() != null) {
             context.discordMessage.mentionedChannels.firstOrNull()
         } else if (context.args[0].isValidSnowflake() && context.event.guild!!.getTextChannelById(context.args[0]) != null) {
             context.event.guild!!.getTextChannelById(context.args[0])
-        } else if (context.event.guild!!.getTextChannelsByName(context.args[0], true) != null) {
+        } else if (context.event.guild!!.getTextChannelsByName(context.args[0], true).isNotEmpty()) {
             context.event.guild!!.getTextChannelsByName(context.args[0], true).first()
         } else {
-            context.reply(locale["commands.moderation.renamechannel.channelnotfound"], Constants.ERROR)
+            null
+        }
+        val voiceChannel: VoiceChannel? = if (context.event.guild!!.getVoiceChannelById(context.args[0]) != null) {
+            context.event.guild!!.getVoiceChannelById(context.args[0])
+        } else if (context.event.guild!!.getVoiceChannelsByName(context.args[0], true).isNotEmpty()) {
+            context.event.guild!!.getVoiceChannelsByName(context.args[0], true).first()
+        } else {
+            null
+        }
+
+        if (textChannel == null && voiceChannel == null) {
+            context.reply(locale["commands.moderation.renamechannel.channelNotFound"], Constants.ERROR)
             return
         }
+
         val toRename = context.args.drop(1).joinToString(" ")
                 .trim()
                 .replace('|', '│')
                 .replace("[\\s]".toRegex(), "\u2005")
 
         try {
-            val manager = channel!!.manager
-            val f = manager::class.java.getDeclaredField("name")
-            manager.setName("temp")
-            f.isAccessible = true
-            f.set(manager, toRename)
-            manager.complete()
-            context.reply(locale["commands.moderation.renamechannel.successfullyrenamed"], "\uD83C\uDF89")
+            if (textChannel != null && voiceChannel == null) {
+                val manager = textChannel.manager
+                val f = manager::class.java.getDeclaredField("name")
+                manager.setName("temp")
+                f.isAccessible = true
+                f.set(manager, toRename)
+                manager.complete()
+                context.reply(locale["commands.moderation.renamechannel.successfullyRenamed"], "\uD83C\uDF89")
+            } else {
+                voiceChannel!!.manager.setName(context.args.drop(1).joinToString(" ").trim()).queue()
+                context.reply(locale["commands.moderation.renamechannel.successfullyRenamed"], "\uD83C\uDF89")
+            }
         } catch(e: Exception) {
-            context.reply(locale["commands.moderation.renamechannel.cantrename"], Constants.ERROR)
+            context.reply(locale["commands.moderation.renamechannel.cantRename"], Constants.ERROR)
         }
     }
 }
