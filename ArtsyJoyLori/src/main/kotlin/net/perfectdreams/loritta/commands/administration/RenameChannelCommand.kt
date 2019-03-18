@@ -82,9 +82,11 @@ class RenameChannelCommand : LorittaCommand(arrayOf("renamechannel", "renomearca
                 f.set(manager, toRename)
                 manager.complete()
                 context.reply(locale["commands.moderation.renamechannel.successfullyRenamed"], "\uD83C\uDF89")
-            } else {
-                voiceChannel!!.manager.setName(context.args.drop(1).joinToString(" ").trim()).queue()
+            } else if (voiceChannel != null && textChannel == null) {
+                voiceChannel.manager.setName(context.args.drop(1).joinToString(" ").trim()).queue()
                 context.reply(locale["commands.moderation.renamechannel.successfullyRenamed"], "\uD83C\uDF89")
+            } else {
+                context.reply(locale["commands.moderation.renamechannel.channelConflict"], Constants.ERROR)
             }
         } catch(e: Exception) {
             context.reply(locale["commands.moderation.renamechannel.cantRename"], Constants.ERROR)
