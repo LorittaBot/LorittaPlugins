@@ -29,8 +29,9 @@ class RenameChannelCommand : LorittaCommand(arrayOf("renamechannel", "renomearca
     override fun getExamples(locale: BaseLocale): List<String> {
         return listOf(
                 "#lori-é-fofis lori é fofis",
-                "297732013006389252 bate papo",
-                "bate-papo bate papo"
+                "297732013006389252 bate-papo",
+                "lorota-pantufa lorota & pantufa",
+                "bate-papo \uD83D\uDE0E | bate-papo"
         )
     }
 
@@ -70,7 +71,8 @@ class RenameChannelCommand : LorittaCommand(arrayOf("renamechannel", "renomearca
 
         val toRename = context.args.drop(1).joinToString(" ")
                 .trim()
-                .replace('|', '│')
+                .replace("(\\s\\|\\s|\\|)".toRegex(), "│")
+                .replace("(\\s&\\s|&)".toRegex(), "＆")
                 .replace("[\\s]".toRegex(), "\u2005")
 
         try {
