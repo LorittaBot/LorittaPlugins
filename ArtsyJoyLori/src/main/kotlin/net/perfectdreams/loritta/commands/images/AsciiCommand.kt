@@ -5,7 +5,9 @@ import net.perfectdreams.commands.annotation.Subcommand
 import net.perfectdreams.loritta.api.commands.CommandCategory
 import net.perfectdreams.loritta.api.commands.LorittaCommand
 import net.perfectdreams.loritta.api.commands.LorittaCommandContext
-import java.awt.Color
+import java.awt.*
+import java.awt.image.BufferedImage
+import java.util.*
 
 class AsciiCommand : LorittaCommand(arrayOf("ascii"), CommandCategory.IMAGES) {
     override fun getDescription(locale: BaseLocale): String? {
@@ -71,7 +73,12 @@ class AsciiCommand : LorittaCommand(arrayOf("ascii"), CommandCategory.IMAGES) {
                 fMessage += strChar(pixval)
             }
         }
-        context.sendMessage("```${fMessage}```")
+        // Vamos criar uma imagem e escrever o texto 
+        val newImage = BufferedImage(image.height, image.width, BufferedImage.TYPE_INT_ARGB)
+        val newImageGraph = newImage.graphics as Graphics2D
+        newImageGraph.drawString(fMessage, 0, 0)
+
+        context.sendFile(newImage, "ascii.png", context.getAsMention(true))
 
     }
 
