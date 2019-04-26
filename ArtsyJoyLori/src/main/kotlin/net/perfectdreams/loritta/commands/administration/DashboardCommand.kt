@@ -4,7 +4,7 @@ import com.mrpowergamerbr.loritta.Loritta
 import net.perfectdreams.loritta.api.commands.*
 import com.mrpowergamerbr.loritta.utils.locale.BaseLocale
 import com.mrpowergamerbr.loritta.utils.LoriReply
-import net.dv8tion.jda.core.Permission
+import net.dv8tion.jda.api.Permission
 import com.mrpowergamerbr.loritta.utils.LorittaPermission
 import net.perfectdreams.commands.annotation.Subcommand
 import net.perfectdreams.loritta.platform.discord.entities.DiscordCommandContext

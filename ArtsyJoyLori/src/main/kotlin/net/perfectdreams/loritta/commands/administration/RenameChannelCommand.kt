@@ -4,10 +4,9 @@ import com.mrpowergamerbr.loritta.utils.Constants
 import com.mrpowergamerbr.loritta.utils.isValidSnowflake
 import com.mrpowergamerbr.loritta.utils.locale.BaseLocale
 import net.perfectdreams.commands.annotation.Subcommand
-import net.dv8tion.jda.core.Permission
-import net.dv8tion.jda.core.entities.Channel
-import net.dv8tion.jda.core.entities.TextChannel
-import net.dv8tion.jda.core.entities.VoiceChannel
+import net.dv8tion.jda.api.Permission
+import net.dv8tion.jda.api.entities.TextChannel
+import net.dv8tion.jda.api.entities.VoiceChannel
 import net.perfectdreams.loritta.api.commands.*
 import net.perfectdreams.loritta.platform.discord.entities.DiscordCommandContext
 

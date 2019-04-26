@@ -1,7 +1,7 @@
 package net.perfectdreams.loritta.commands.actions
 
 import com.mrpowergamerbr.loritta.utils.locale.BaseLocale
-import net.dv8tion.jda.core.entities.User
+import net.dv8tion.jda.api.entities.User
 import java.awt.Color
 
 class DanceCommand : ActionCommand(arrayOf("dance", "dançar")) {

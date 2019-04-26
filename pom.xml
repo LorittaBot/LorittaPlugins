@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
-        <loritta.version>2019.03.08-SNAPSHOT</loritta.version>
+        <loritta.version>2019.04.26-SNAPSHOT</loritta.version>
         <kotlin.version>1.3.0</kotlin.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -49,7 +49,7 @@
         <dependency>
             <groupId>net.perfectdreams.loritta</groupId>
             <artifactId>Loritta</artifactId>
-            <version>2019.03.08-SNAPSHOT</version>
+            <version>2019.04.26-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>net.perfectdreams.commands</groupId>

@@ -10,9 +10,9 @@ import com.mrpowergamerbr.loritta.utils.locale.BaseLocale
 import com.mrpowergamerbr.loritta.utils.locale.Gender
 import com.mrpowergamerbr.loritta.utils.loritta
 import com.mrpowergamerbr.loritta.utils.onReactionAdd
-import net.dv8tion.jda.core.EmbedBuilder
-import net.dv8tion.jda.core.entities.MessageEmbed
-import net.dv8tion.jda.core.entities.User
+import net.dv8tion.jda.api.EmbedBuilder
+import net.dv8tion.jda.api.entities.MessageEmbed
+import net.dv8tion.jda.api.entities.User
 import net.perfectdreams.commands.annotation.Subcommand
 import net.perfectdreams.loritta.api.commands.*
 import net.perfectdreams.loritta.platform.discord.entities.DiscordCommandContext
