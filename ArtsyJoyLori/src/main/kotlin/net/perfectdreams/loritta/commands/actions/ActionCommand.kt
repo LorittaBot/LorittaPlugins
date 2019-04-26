@@ -3,15 +3,11 @@ package net.perfectdreams.loritta.commands.actions
 import com.mrpowergamerbr.loritta.Loritta
 import com.mrpowergamerbr.loritta.dao.Profile
 import com.mrpowergamerbr.loritta.network.Databases
-import com.mrpowergamerbr.loritta.utils.Constants
-import com.mrpowergamerbr.loritta.utils.LoriReply
+import com.mrpowergamerbr.loritta.utils.*
 import com.mrpowergamerbr.loritta.utils.extensions.getRandom
 import com.mrpowergamerbr.loritta.utils.locale.BaseLocale
 import com.mrpowergamerbr.loritta.utils.locale.Gender
-import com.mrpowergamerbr.loritta.utils.loritta
-import com.mrpowergamerbr.loritta.utils.onReactionAdd
 import net.dv8tion.jda.api.EmbedBuilder
-import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.entities.User
 import net.perfectdreams.commands.annotation.Subcommand
 import net.perfectdreams.loritta.api.commands.*
@@ -128,6 +124,8 @@ abstract class ActionCommand(labels: Array<String>) : LorittaCommand(labels, Com
 
         message.onReactionAdd(context) {
             if (it.reactionEmote.name == "\uD83D\uDD01" && it.user.id == receiver.id) {
+                message.removeAllFunctions()
+
                 runAction(context, receiver, recProfile, user, null)
             }
         }
