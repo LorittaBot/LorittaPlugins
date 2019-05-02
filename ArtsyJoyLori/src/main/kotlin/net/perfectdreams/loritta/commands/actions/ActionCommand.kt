@@ -91,7 +91,7 @@ abstract class ActionCommand(labels: Array<String>) : LorittaCommand(labels, Com
         }
 
         // R U a boy or girl?
-        val userGender = transaction (Databases.loritta) { senderProfile.settings.gender }
+        val userGender = transaction(Databases.loritta) { senderProfile.settings.gender }
         val receiverGender = transaction(Databases.loritta) { recProfile.settings.gender }
 
         response = getResponse(locale, user, receiver)
@@ -120,13 +120,17 @@ abstract class ActionCommand(labels: Array<String>) : LorittaCommand(labels, Com
                         .build()
         ).handle
 
-        message.addReaction("\uD83D\uDD01").queue()
+        if (user != receiver) {
+            // Para evitar floods de actions, nós apenas iremos adicionar a reação *caso* o usuário tenha usado o comando em outra pessoa
+            // Se fosse na mesma, o usuário pode ficar clicando na reação para "spammar" mensagens
+            message.addReaction("\uD83D\uDD01").queue()
 
-        message.onReactionAdd(context) {
-            if (it.reactionEmote.name == "\uD83D\uDD01" && it.user.id == receiver.id) {
-                message.removeAllFunctions()
+            message.onReactionAdd(context) {
+                if (it.reactionEmote.name == "\uD83D\uDD01" && it.user.id == receiver.id) {
+                    message.removeAllFunctions()
 
-                runAction(context, receiver, recProfile, user, null)
+                    runAction(context, receiver, recProfile, user, null)
+                }
             }
         }
     }
