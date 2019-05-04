@@ -15,7 +15,7 @@ class AttackCommand : ActionCommand(arrayOf("attack", "atacar")) {
     }
 
     override fun getResponse(locale: BaseLocale, first: User, second: User): String {
-        return if (second.id != Loritta.config.clientId) {
+        return if (second.id != Loritta.config.discord.clientId) {
             locale["commands.actions.attack.response", first.asMention, second.asMention]
         } else {
             locale["commands.actions.attack.responseAntiIdiot", second.asMention, first.asMention]
