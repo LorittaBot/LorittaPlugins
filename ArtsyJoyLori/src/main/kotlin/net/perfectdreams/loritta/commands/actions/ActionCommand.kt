@@ -80,7 +80,7 @@ abstract class ActionCommand(labels: Array<String>) : LorittaCommand(labels, Com
         val recProfile = receiverProfile ?: loritta.getOrCreateLorittaProfile(receiver.id)
 
         // Anti-gente idiota
-        if (this is KissCommand && receiver.id == Loritta.config.clientId) {
+        if (this is KissCommand && receiver.id == Loritta.config.discord.clientId) {
             context.reply(
                     LoriReply(
                             locale["commands.actions.kiss.responseAntiIdiot"],
@@ -97,7 +97,7 @@ abstract class ActionCommand(labels: Array<String>) : LorittaCommand(labels, Com
         response = getResponse(locale, user, receiver)
 
         // Quem tentar estapear a Loritta, vai ser estapeado
-        var files = if ((this is SlapCommand || this is AttackCommand || this is KissCommand) && receiver.id == Loritta.config.clientId) {
+        var files = if ((this is SlapCommand || this is AttackCommand || this is KissCommand) && receiver.id == Loritta.config.discord.clientId) {
             getGifsFor(receiverGender, userGender)
         } else {
             getGifsFor(userGender, receiverGender)
@@ -115,7 +115,7 @@ abstract class ActionCommand(labels: Array<String>) : LorittaCommand(labels, Com
                 EmbedBuilder()
                         .setDescription("${getEmoji()} $response")
                         .setColor(getEmbedColor())
-                        .setImage(Loritta.config.websiteUrl + "assets/img/actions/${getFolderName()}/${randomImage.folderName}/${randomImage.fileName}")
+                        .setImage(Loritta.config.loritta.website.url + "assets/img/actions/${getFolderName()}/${randomImage.folderName}/${randomImage.fileName}")
                         .setFooter(locale["commands.actions.clickToRetribute", "\uD83D\uDD01"], null)
                         .build()
         ).handle

@@ -15,7 +15,7 @@ class SlapCommand : ActionCommand(arrayOf("slap", "tapa", "tapinha")) {
     }
 
     override fun getResponse(locale: BaseLocale, first: User, second: User): String {
-        return if (second.id != Loritta.config.clientId) {
+        return if (second.id != Loritta.config.discord.clientId) {
             locale["commands.actions.slap.response", first.asMention, second.asMention]
         } else {
             locale["commands.actions.slap.responseAntiIdiot", second.asMention, first.asMention]

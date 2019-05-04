@@ -25,7 +25,7 @@ class DashboardCommand : LorittaCommand(arrayOf("dashboard", "painel", "configur
 
     @Subcommand
     suspend fun root(context: DiscordCommandContext, locale: BaseLocale) {
-        val dashboardUrl = "${Loritta.config.websiteUrl}dashboard"
+        val dashboardUrl = "${Loritta.config.loritta.website.url}dashboard"
         var url = dashboardUrl
         if (!context.isPrivateChannel) {
             url = "$dashboardUrl/configure/${context.discordGuild!!.id}"
