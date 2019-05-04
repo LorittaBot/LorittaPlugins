@@ -37,7 +37,7 @@ class QuirkyModule(val config: QuirkyConfig) : MessageReceivedModule {
             for (contextAware in config.randomReactions.contextAwareReactions) {
                 if (chance(contextAware.chanceOf)) {
                     if (event.message.contentRaw.matches(Regex(contextAware.match))) {
-                        message.addReaction(contextAware.reactions.random())
+                        message.addReaction(contextAware.reactions.random()).queue()
                         break
                     }
                 }
