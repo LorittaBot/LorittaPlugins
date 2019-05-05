@@ -14,6 +14,21 @@ class AsciiCommand : LorittaCommand(arrayOf("ascii"), CommandCategory.IMAGES) {
         return locale["commands.images.ascii.description"]
         // TODO: Locales
     }
+    fun imgtoascii(img: BufferedImage): String {
+        val sb = StringBuilder((img.width + 1) * img.height)
+        for (y in 0 until img.height) {
+          if (sb.isNotEmpty()) sb.append("\n")
+            for (x in 0 until img.width) {
+                val pixelColor = Color(img.getRGB(x, y))
+                val gValue =
+                        pixelColor.red.toDouble() * 0.2989 + pixelColor.blue.toDouble() * 0.5870 + pixelColor.green.toDouble() * 0.1140
+                val s = strChar(gValue)
+                sb.append(s)
+                }
+        }
+        return sb.toString()
+    }
+   
     fun strChar(g:Double):String {
         var str = " "
         if (g >= 240)
@@ -63,16 +78,8 @@ class AsciiCommand : LorittaCommand(arrayOf("ascii"), CommandCategory.IMAGES) {
             return
         }
         // Mensagem final
-        var fMessage : String = ""
-        for (h in 0 until image.getHeight()) {
-            for (w in 0 until image.getWidth()) {
-                val pixcol = Color(image.getRGB(h, w))
-                var pixval : Double = 0.toDouble()
-                pixval = ((((pixcol.getRed() * 0.30) + (pixcol.getBlue() * 0.59) + ((pixcol
-                        .getGreen() * 0.11)))))
-                fMessage += strChar(pixval)
-            }
-        }
+        var fMessage : String = imgtoascii(image)
+        
         // Vamos criar uma imagem e escrever o texto 
         val newImage = BufferedImage(image.height, image.width, BufferedImage.TYPE_INT_ARGB)
         val newImageGraph = newImage.graphics as Graphics2D
