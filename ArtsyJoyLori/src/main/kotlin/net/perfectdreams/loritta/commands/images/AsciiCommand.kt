@@ -23,7 +23,7 @@ class AsciiCommand : LorittaCommand(arrayOf("ascii"), CommandCategory.IMAGES) {
         val height = (oldImage.height)
         val newImage = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
         val newImageGraph = newImage.graphics
-        newImageGraph.color = Color.LIGHT_GRAY
+        newImageGraph.color = Color.WHITE
         newImageGraph.fillRect(0, 0, width, height)
         newImageGraph.color = Color.BLACK
         newImageGraph.font = Font(Font.MONOSPACED, Font.BOLD, 9)
