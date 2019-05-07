@@ -8,6 +8,8 @@ import net.perfectdreams.loritta.api.commands.LorittaCommandContext
 import java.awt.*
 import java.awt.image.BufferedImage
 import java.util.*
+import kotlin.math.roundToInt
+
 
 class AsciiCommand : LorittaCommand(arrayOf("ascii"), CommandCategory.IMAGES) {
     override fun getDescription(locale: BaseLocale): String? {
