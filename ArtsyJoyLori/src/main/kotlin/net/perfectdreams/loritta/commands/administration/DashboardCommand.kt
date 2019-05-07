@@ -4,7 +4,7 @@ import com.mrpowergamerbr.loritta.Loritta
 import net.perfectdreams.loritta.api.commands.*
 import com.mrpowergamerbr.loritta.utils.locale.BaseLocale
 import com.mrpowergamerbr.loritta.utils.LoriReply
-import net.dv8tion.jda.core.Permission
+import net.dv8tion.jda.api.Permission
 import com.mrpowergamerbr.loritta.utils.LorittaPermission
 import net.perfectdreams.commands.annotation.Subcommand
 import net.perfectdreams.loritta.platform.discord.entities.DiscordCommandContext
@@ -14,14 +14,21 @@ class DashboardCommand : LorittaCommand(arrayOf("dashboard", "painel", "configur
         return locale["commands.moderation.dashboard.description"]
     }
 
+    override fun getExamples(locale: BaseLocale): List<String> {
+        return listOf(
+                "",
+                "\uD83D\uDE45"
+        )
+    }
+
     override val canUseInPrivateChannel: Boolean = true
 
     @Subcommand
     suspend fun root(context: DiscordCommandContext, locale: BaseLocale) {
-        val dashboard = "${Loritta.config.websiteUrl}dashboard"
-        var url = dashboard
+        val dashboardUrl = "${Loritta.config.loritta.website.url}dashboard"
+        var url = dashboardUrl
         if (!context.isPrivateChannel) {
-            url = "${dashboard}/configure/${context.discordGuild!!.id}"
+            url = "$dashboardUrl/configure/${context.discordGuild!!.id}"
         }
 
         /*
@@ -30,7 +37,7 @@ class DashboardCommand : LorittaCommand(arrayOf("dashboard", "painel", "configur
         dê o url do dashboard diretamente pro servidor.
         */
 
-        if (!context.isPrivateChannel && (context.lorittaUser.hasPermission(LorittaPermission.ALLOW_ACCESS_TO_DASHBOARD) || context.handle.hasPermission(Permission.MANAGE_SERVER))) {
+        if (context.args.getOrNull(0) != "\uD83D\uDE45" && !context.isPrivateChannel && (context.lorittaUser.hasPermission(LorittaPermission.ALLOW_ACCESS_TO_DASHBOARD) || context.handle.hasPermission(Permission.MANAGE_SERVER))) {
             context.reply(
                     LoriReply(
                             "Dashboard: $url",
@@ -38,16 +45,13 @@ class DashboardCommand : LorittaCommand(arrayOf("dashboard", "painel", "configur
                     )
             )
         } else {
-            // Se o comando for executando em mensagem privada dê o negoco pra slecionar o servidor
+            // Se o comando for executando em mensagem privada dê o negócio pra selecionar o servidor
             context.reply(
                     LoriReply(
-                            "Dashboard: $dashboard",
+                            "Dashboard: $dashboardUrl",
                             "<:wumplus:388417805126467594>"
                     )
             )
-
         }
-
     }
-
 }

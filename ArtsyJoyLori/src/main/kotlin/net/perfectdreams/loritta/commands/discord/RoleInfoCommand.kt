@@ -7,7 +7,7 @@ import com.mrpowergamerbr.loritta.utils.extensions.localized
 import com.mrpowergamerbr.loritta.utils.isValidSnowflake
 import com.mrpowergamerbr.loritta.utils.locale.BaseLocale
 import com.mrpowergamerbr.loritta.utils.locale.LegacyBaseLocale
-import net.dv8tion.jda.core.EmbedBuilder
+import net.dv8tion.jda.api.EmbedBuilder
 import net.perfectdreams.commands.annotation.Subcommand
 import net.perfectdreams.loritta.api.commands.*
 import net.perfectdreams.loritta.platform.discord.entities.DiscordCommandContext
@@ -63,20 +63,20 @@ class RoleInfoCommand : LorittaCommand(arrayOf("roleinfo", "taginfo"), CommandCa
             } else {
                 locale["loritta.fancyBoolean.false"]
             }
-            val permissions = role.permissions.joinToString(", ", transform = { "`${it.localized(legacyLocale)}`" })
+            val permissions = role.permissions.joinToString(", ", transform = { "`${it.localized(locale)}`" })
 
             embed.setTitle("\uD83D\uDCBC ${role.name}")
             if (role.color != null)
                 embed.setColor(role.color)
             embed.addField("\uD83D\uDC40 ${locale["commands.discord.roleinfo.roleMention"]}", "`${role.asMention}`", true)
-            embed.addField("\uD83D\uDCC5 ${locale["commands.discord.roleinfo.roleCreated"]}", DateUtils.formatDateDiff(role.creationTime.toInstant().toEpochMilli(), context.legacyLocale), true)
+            embed.addField("\uD83D\uDCC5 ${locale["commands.discord.roleinfo.roleCreated"]}", DateUtils.formatDateDiff(role.timeCreated.toInstant().toEpochMilli(), context.legacyLocale), true)
             embed.addField("\uD83D\uDCBB ${locale["commands.discord.roleinfo.roleID"]}", "`${role.id}`", true)
             embed.addField(locale["commands.discord.roleinfo.roleHoisted"], isHoisted, true)
             embed.addField("<:bot:516314838541008906> ${locale["commands.discord.roleinfo.roleIntegration"]}", isIntegrationBot, true)
             embed.addField("\uD83D\uDC40 ${locale["commands.discord.roleinfo.roleMentionable"]}", isMentionable, true)
             embed.addField("\uD83D\uDC65 ${locale["commands.discord.roleinfo.roleMembers"]}", context.discordGuild!!.getMembersWithRoles(role).size.toString(),true)
             if (role.color != null)
-                embed.addField("🎨 ${locale["commands.discord.roleinfo.roleColor"]}", "`#${Integer.toHexString(role.color.rgb).substring(2).toUpperCase()}`", true)
+                embed.addField("🎨 ${locale["commands.discord.roleinfo.roleColor"]}", "`#${Integer.toHexString(role.color!!.rgb).substring(2).toUpperCase()}`", true)
             embed.addField("\uD83D\uDEE1 ${locale["commands.discord.roleinfo.rolePermissions"]}", permissions, true)
 
             context.sendMessage(context.getAsMention(true), embed.build())
