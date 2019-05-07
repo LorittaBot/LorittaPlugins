@@ -87,7 +87,7 @@ fun strChar(g: Double): Char {
 }
     @Subcommand
     suspend fun root(context: LorittaCommandContext, locale: BaseLocale, args: Array<String>) {
-        val image = context.getImageAt(0, 0, 0)
+        val image = context.getImageAt(0)
         if (image == null) {
             context.explain()
             return
