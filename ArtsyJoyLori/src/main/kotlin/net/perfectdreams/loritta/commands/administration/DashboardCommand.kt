@@ -6,6 +6,7 @@ import com.mrpowergamerbr.loritta.utils.locale.BaseLocale
 import com.mrpowergamerbr.loritta.utils.LoriReply
 import net.dv8tion.jda.api.Permission
 import com.mrpowergamerbr.loritta.utils.LorittaPermission
+import com.mrpowergamerbr.loritta.utils.loritta
 import net.perfectdreams.commands.annotation.Subcommand
 import net.perfectdreams.loritta.platform.discord.entities.DiscordCommandContext
 
@@ -25,7 +26,7 @@ class DashboardCommand : LorittaCommand(arrayOf("dashboard", "painel", "configur
 
     @Subcommand
     suspend fun root(context: DiscordCommandContext, locale: BaseLocale) {
-        val dashboardUrl = "${Loritta.config.loritta.website.url}dashboard"
+        val dashboardUrl = "${loritta.config.loritta.website.url}dashboard"
         var url = dashboardUrl
         if (!context.isPrivateChannel) {
             url = "$dashboardUrl/configure/${context.discordGuild!!.id}"
