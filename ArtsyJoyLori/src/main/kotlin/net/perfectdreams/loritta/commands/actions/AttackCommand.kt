@@ -2,6 +2,7 @@ package net.perfectdreams.loritta.commands.actions
 
 import com.mrpowergamerbr.loritta.Loritta
 import com.mrpowergamerbr.loritta.utils.locale.BaseLocale
+import com.mrpowergamerbr.loritta.utils.loritta
 import net.dv8tion.jda.api.entities.User
 import java.awt.Color
 
@@ -15,7 +16,7 @@ class AttackCommand : ActionCommand(arrayOf("attack", "atacar")) {
     }
 
     override fun getResponse(locale: BaseLocale, first: User, second: User): String {
-        return if (second.id != Loritta.config.discord.clientId) {
+        return if (second.id != loritta.discordConfig.discord.clientId) {
             locale["commands.actions.attack.response", first.asMention, second.asMention]
         } else {
             locale["commands.actions.attack.responseAntiIdiot", second.asMention, first.asMention]
