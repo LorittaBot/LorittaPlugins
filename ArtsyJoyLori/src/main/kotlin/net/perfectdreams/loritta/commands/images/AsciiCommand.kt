@@ -4,18 +4,24 @@ import com.mrpowergamerbr.loritta.utils.locale.BaseLocale
 import net.perfectdreams.commands.annotation.Subcommand
 import net.perfectdreams.loritta.api.commands.*
 import net.perfectdreams.loritta.utils.ImageToAsciiConverter
-import java.awt.*
 import java.awt.image.BufferedImage
-import java.io.File
-import java.net.URL
-import javax.imageio.ImageIO
 import kotlin.contracts.ExperimentalContracts
-import kotlin.math.roundToInt
 
 
-class AsciiCommand : LorittaCommand(arrayOf("ascii"), CommandCategory.IMAGES) {
+class AsciiCommand : LorittaCommand(arrayOf("ascii", "asciiart", "img2ascii", "img2asciiart", "image2ascii"), CommandCategory.IMAGES) {
+    override val needsToUploadFiles: Boolean = true
+
     override fun getDescription(locale: BaseLocale): String? {
         return locale["commands.images.ascii.description"]
+    }
+
+    override fun getExamples(locale: BaseLocale): List<String> {
+        return listOf(
+                "@Loritta",
+                "colorize",
+                "dither",
+                "@Loritta colorize dither"
+        )
     }
 
     override fun getUsage(locale: BaseLocale): CommandArguments {
@@ -26,13 +32,18 @@ class AsciiCommand : LorittaCommand(arrayOf("ascii"), CommandCategory.IMAGES) {
 
     @ExperimentalContracts
     @Subcommand
-    suspend fun root(context: LorittaCommandContext, locale: BaseLocale, args: Array<String>) {
-        val image = notNullImage(context.getImageAt(0), context)
-        val converter = ImageToAsciiConverter()
+    suspend fun root(context: LorittaCommandContext, locale: BaseLocale, image: BufferedImage?, args: Array<String>) {
+        val img = notNullImage(image, context)
+        val options = mutableSetOf<ImageToAsciiConverter.AsciiOptions>()
+        for (arg in args) {
+            try {
+                options.add(ImageToAsciiConverter.AsciiOptions.valueOf(arg.toUpperCase()))
+            } catch (e: IllegalArgumentException) {
+            }
+        }
+        val converter = ImageToAsciiConverter(*options.toTypedArray())
+        val newImage = converter.imgToAsciiImg(img)
 
-        // Vamos criar uma imagem e escrever o texto 
-        val newImage = converter.imgToAsciiImg(image)
-
-        context.sendFile(newImage, "ascii.png", context.getAsMention(true))
+        context.sendFile(newImage, "asciiart.png", context.getAsMention(true))
     }
 }
