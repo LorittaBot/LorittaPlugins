@@ -8,6 +8,7 @@ import net.perfectdreams.loritta.commands.administration.DashboardCommand
 import net.perfectdreams.loritta.commands.administration.RenameChannelCommand
 import net.perfectdreams.loritta.commands.discord.RenameEmojiCommand
 import net.perfectdreams.loritta.commands.discord.RoleInfoCommand
+import net.perfectdreams.loritta.commands.images.AsciiCommand
 import net.perfectdreams.loritta.commands.images.DrawnWordCommand
 
 class ArtsyJoyLori : LorittaPlugin() {
@@ -21,6 +22,7 @@ class ArtsyJoyLori : LorittaPlugin() {
         // IMAGES
         registerCommand(AtendenteCommand())
         registerCommand(TristeRealidadeCommand())
+        registerCommand(AsciiCommand())
         registerCommand(DrawnWordCommand())
 
         // ACTIONS
