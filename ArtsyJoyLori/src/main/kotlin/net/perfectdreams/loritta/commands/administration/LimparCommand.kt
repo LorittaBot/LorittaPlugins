@@ -72,9 +72,9 @@ class LimparCommand : LorittaCommand(arrayOf("limpar", "clear", "clean", "bulkde
         val broomEmoji = "<:broom:584827322197344267>"
 
         val sentMsg = if (!hasOldMessages) {
-            context.reply(locale["commands.moderation.clear.success"], broomEmoji)
+            context.reply(locale["commands.moderation.clear.success", messages.size], broomEmoji)
         } else {
-            context.reply(locale["commands.moderation.clear.successIgnoredOld", messages.size - allowedMessages.size], broomEmoji)
+            context.reply(locale["commands.moderation.clear.successIgnoredOld", messages.size, messages.size - allowedMessages.size], broomEmoji)
         }
         // Deletar mensagem da Lori depois de 5 segundos
         delay(5000)
