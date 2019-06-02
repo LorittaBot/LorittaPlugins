@@ -42,7 +42,7 @@ class LimparCommand : LorittaCommand(arrayOf("limpar", "clear", "clean", "bulkde
             context.explain()
             return
         }
-        if (toClear !in 2..100) {
+        if (toClear !in 2..170) {
             context.reply(locale["commands.moderation.clear.invalidRange"], Constants.ERROR)
             return
         }
@@ -70,12 +70,13 @@ class LimparCommand : LorittaCommand(arrayOf("limpar", "clear", "clean", "bulkde
         // it's time to delete
         context.event.textChannel!!.deleteMessages(allowedMessages)
         val broomEmoji = "<:broom:584827322197344267>"
+
         val sentMsg = if (!hasOldMessages) {
-            context.reply(locale["commands.moderation.clear.successfullyCleanedMessages"], broomEmoji)
+            context.reply(locale["commands.moderation.clear.success"], broomEmoji)
         } else {
-            context.reply(locale["commands.moderation.clear.successfullyCleanedSomeMessages", messages.size - allowedMessages.size], broomEmoji)
+            context.reply(locale["commands.moderation.clear.successIgnoredOld", messages.size - allowedMessages.size], broomEmoji)
         }
-        // Deletar mensagem da Lori depois de 2 segundos
+        // Deletar mensagem da Lori depois de 5 segundos
         delay(5000)
         sentMsg.delete()
     }
