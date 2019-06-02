@@ -72,7 +72,7 @@ class LimparCommand : LorittaCommand(arrayOf("limpar", "clear", "clean", "bulkde
         val broomEmoji = "<:broom:584827322197344267>"
 
         val sentMsg = if (!hasOldMessages) {
-            context.reply(locale["commands.moderation.clear.success", messages.size], broomEmoji)
+            context.reply(locale["commands.moderation.clear.success", allowedMessages.size], broomEmoji)
         } else {
             context.reply(locale["commands.moderation.clear.successIgnoredOld", messages.size, messages.size - allowedMessages.size], broomEmoji)
         }
