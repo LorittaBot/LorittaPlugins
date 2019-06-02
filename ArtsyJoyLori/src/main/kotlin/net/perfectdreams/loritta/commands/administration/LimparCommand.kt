@@ -76,8 +76,10 @@ class LimparCommand : LorittaCommand(arrayOf("limpar", "clear", "clean", "bulkde
         } else {
             context.reply(locale["commands.moderation.clear.successIgnoredOld", allowedMessages.size, messages.size - allowedMessages.size], broomEmoji)
         }
-        // Deletar mensagem da Lori depois de 5 segundos
-        delay(5000)
-        sentMsg.delete()
+        // Deletar mensagem da Lori depois de 5 segundos (se não ter nenhuma nehuma menção na mensagem)
+        if (context.discordMessage.mentionedUsers.isEmpty()) {
+            delay(5000)
+            sentMsg.delete()
+        }
     }
 }
