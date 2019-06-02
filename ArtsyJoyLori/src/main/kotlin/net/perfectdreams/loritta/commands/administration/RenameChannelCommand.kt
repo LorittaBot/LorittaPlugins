@@ -72,7 +72,7 @@ class RenameChannelCommand : LorittaCommand(arrayOf("renamechannel", "renomearca
                 .trim()
                 .replace("(\\s\\|\\s|\\|)".toRegex(), "│")
                 .replace("(\\s&\\s|&)".toRegex(), "＆")
-                .replace("[\\s]".toRegex(), "\u2005")
+                .replace("[\\s]".toRegex(), "\u2006")
 
         try {
             if (textChannel != null && voiceChannel == null) {
